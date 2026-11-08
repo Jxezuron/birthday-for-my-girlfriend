@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Little Universe Made Just for my Arya, Oun ♡</title>
+<!-- Optional fonts: the page falls back to system fonts if offline -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Background layers -->
+<canvas id="sky"></canvas>
+<div id="hearts"></div>
+<div id="fx"></div>
+<audio id="audio" src="music/birthday-song.mp3" loop preload="auto"></audio>
+
+<!-- Shown only if the browser blocks autoplay -->
+<div id="tap" class="overlay hidden"><button class="glow-btn" id="tapBtn">Tap to Begin Our Little Story ♡</button></div>
+
+<!-- Cinematic intro -->
+<main id="intro" class="overlay hidden">
+  <svg id="bigHeart" class="fade" viewBox="0 0 24 24" width="120" height="120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8c8dc"/><stop offset="1" stop-color="#b79ced"/></linearGradient></defs><path fill="url(#g)" d="M12 21s-8-5.3-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.7-8 11-8 11z"/></svg>
+  <h1 id="t1" class="fade script">Good morning my lovely...</h1>
+  <p id="t2" class="fade">Today, the universe is celebrating someone special.</p>
+  <button id="enter" class="fade glow-btn">Enter My Little Universe ♡</button>
+</main>
+
+<!-- Main universe -->
+<section id="universe" class="hidden">
+  <h2 class="script">A Little Universe Made Just for You, Oun</h2>
+  <p class="sub">Tap a planet. Every one has something for you ♡</p>
+  <div class="planets">
+    <button class="planet" data-view="letter" style="--d:0s;--c:#f8c8dc,#b94a78"><i class="orb">💌</i><span>A Letter From Me</span></button>
+    <button class="planet" data-view="reasons" style="--d:.6s;--c:#d9c6ff,#6b4fb0"><i class="orb">🌟</i><span>Why You're Special</span></button>
+    <button class="planet" data-view="quiz" style="--d:1.2s;--c:#ffe3c9,#c9777f"><i class="orb">🎀</i><span>Our Little Love Quiz</span></button>
+    <button class="planet" data-view="secret" style="--d:.3s;--c:#c9b3ff,#3a2a7a"><i class="orb">🔒</i><span>Your Secret Message</span></button>
+    <button class="planet" data-view="wish" style="--d:.9s;--c:#fbd4c6,#a64a5e"><i class="orb">🌠</i><span>A Wish Just for You</span></button>
+    <button class="planet" data-view="games" style="--d:1.5s;--c:#ffd1e6,#7a1f3d"><i class="orb">🎮</i><span>Little Games</span></button>
+    <button class="planet" data-view="cake" style="--d:.45s;--c:#fff4e6,#e8b4a0"><i class="orb">🎂</i><span>Birthday Cake</span></button>
+  </div>
+</section>
+
+<!-- Panel that holds each destination -->
+<section id="panel" class="hidden">
+  <button id="back" class="back">← Back to my universe</button>
+
+  <!-- 1. Letter -->
+  <div class="view" id="v-letter">
+    <h3 class="script">A Letter From Me</h3>
+    <div id="envelope" class="envelope" tabindex="0" role="button" aria-label="Open the letter">
+      <div class="flap"></div><div class="seal">♡</div>
+      <div class="paper"><div class="letter">
+<p>Happy birthday, Oun ❤️</p>
+<p>I've been trying to figure out how to say all this properly, and I still don't think I got it right, so please just read it in my voice.</p>
+<p>I love you. A lot. More than I say out loud, and it's the kind of love that doesn't switch off when we hang up. I miss you every single day, the small things most of all: your messages, your voice, the way a normal day gets better the moment you show up in it.</p>
+<p>I really wish I was next to you today. I'd hug you for way too long, kiss you, and probably be annoying about it. Instead you get this little universe I made. I hope it makes you smile at least once.</p>
+<p>Thank you for being you, and for being mine. You mean so much to me, and distance can't change that, not even a little.</p>
+<p>Happy birthday, my love.<br>Always yours ❤️</p>
+      </div></div>
+    </div>
+    <p class="hint" id="envHint">Tap the envelope ♡</p>
+  </div>
+
+  <!-- 2. Reasons -->
+  <div class="view" id="v-reasons">
+    <h3 class="script">Reasons Why You're Special</h3>
+    <p class="hint">Tap a card to flip it ♡</p>
+    <div class="cards" id="cards"></div>
+  </div>
+
+  <!-- 3. Quiz -->
+  <div class="view" id="v-quiz">
+    <h3 class="script">Our Little Love Quiz</h3>
+    <div class="glass" id="quizBox"></div>
+  </div>
+
+  <!-- 4. Secret -->
+  <div class="view" id="v-secret">
+    <h3 class="script">Unlock Your Secret Message</h3>
+    <button id="lock" class="lock" aria-label="Unlock the heart">🔒</button>
+    <div class="glass reveal" id="secretMain">You unlocked it, Oun. Here's the secret: I smile at my phone like an idiot every time your name shows up. Please never tell anyone. ♡</div>
+    <p class="hint" id="secretHint">Tap the locked heart...</p>
+    <div class="mini" id="miniHearts"></div>
+    <div class="glass reveal" id="secretMsg"></div>
+  </div>
+
+  <!-- 5. Wish -->
+  <div class="view" id="v-wish">
+    <h3 class="script">A Wish Just for You</h3>
+    <div class="wishStar">🌠</div>
+    <p class="big">Make a wish, my love.</p>
+    <button class="glow-btn" id="wishBtn">Make a Wish ♡</button>
+    <div class="glass reveal" id="wishMsg">I hope this next year is kind to you. I wish you happy everyday, success in everything you're working toward, good health, and lots of beautiful moments worth remembering. And I hope I get to be part of a lot of them. ❤️</div>
+  </div>
+
+  <!-- 6. Games -->
+  <div class="view" id="v-games">
+    <h3 class="script">Little Games</h3>
+    <div class="glass">
+      <h4>A. Catch My Love</h4>
+      <div class="bar"><b id="bar"></b></div>
+      <p class="hint" id="score">Hearts collected: 0 / 10</p>
+      <div class="arena" id="arena"></div>
+      <button class="glow-btn small" id="catchStart">Start / Restart</button>
+      <div class="reveal" id="catchMsg">You caught every heart! Just like you caught mine a long time ago. ♡</div>
+    </div>
+    <div class="glass">
+      <h4>B. How Much Do You Love Me?</h4>
+      <button class="glow-btn small" id="loveBtn">Tell me how much</button>
+      <p class="out" id="loveOut"></p>
+    </div>
+    <div class="glass">
+      <h4>C. Virtual Hug</h4>
+      <div class="hugStage" id="hugStage"><span class="hh l">💗</span><span class="hh r">💜</span></div>
+      <button class="glow-btn small" id="hugBtn">Sending You a Big Hug ♡</button>
+      <p class="out" id="hugOut"></p>
+    </div>
+    <div class="glass">
+      <h4>D. Send Me a Kiss</h4>
+      <button class="glow-btn small" id="kissBtn">Send Me a Kiss 💋</button>
+      <p class="out" id="kissOut"></p>
+    </div>
+    <div class="glass">
+      <h4>E. Random Love Message</h4>
+      <button class="glow-btn small" id="randBtn">Give Me a Random Love Message</button>
+      <p class="out" id="randOut"></p>
+    </div>
+  </div>
+
+  <!-- 7. Cake -->
+  <div class="view" id="v-cake">
+    <h3 class="script" id="cakeTitle">Happy Birthday, My Oun ❤️</h3>
+    <p class="big">Today is your day, and I hope it brings you as much happiness as you bring into my life.</p>
+    <svg id="cake" viewBox="0 0 220 220" width="260" height="260" aria-label="Birthday cake">
+      <defs><radialGradient id="glow"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient></defs>
+      <ellipse cx="110" cy="195" rx="100" ry="12" fill="#00000055"/>
+      <rect x="20" y="140" width="180" height="55" rx="10" fill="#e8b4a0"/>
+      <path d="M20 150q15 18 30 0t30 0 30 0 30 0 30 0 30 0v-10H20z" fill="#fff4e6"/>
+      <rect x="45" y="95" width="130" height="48" rx="9" fill="#f8c8dc"/>
+      <path d="M45 105q13 16 26 0t26 0 26 0 26 0 25 0v-10H45z" fill="#fff4e6"/>
+      <circle cx="75" cy="125" r="4" fill="#b94a78"/><circle cx="110" cy="130" r="4" fill="#b79ced"/><circle cx="145" cy="125" r="4" fill="#b94a78"/>
+      <g class="candles">
+        <g transform="translate(80,0)"><rect x="-3" y="62" width="6" height="33" fill="#b79ced"/><g class="flame"><circle cy="45" r="28" fill="url(#glow)"/><path d="M0 40c5 6 5 13 0 17-5-4-5-11 0-17z" fill="#ffb347"/></g></g>
+        <g transform="translate(110,0)"><rect x="-3" y="62" width="6" height="33" fill="#f8c8dc"/><g class="flame" style="--f:.2s"><circle cy="45" r="28" fill="url(#glow)"/><path d="M0 40c5 6 5 13 0 17-5-4-5-11 0-17z" fill="#ffb347"/></g></g>
+        <g transform="translate(140,0)"><rect x="-3" y="62" width="6" height="33" fill="#b79ced"/><g class="flame" style="--f:.4s"><circle cy="45" r="28" fill="url(#glow)"/><path d="M0 40c5 6 5 13 0 17-5-4-5-11 0-17z" fill="#ffb347"/></g></g>
+      </g>
+    </svg>
+    <div><button class="glow-btn" id="blowBtn">Make a Wish, Birthday Arya ♡</button></div>
+    <div class="glass reveal" id="finalMsg">
+      <p>Oun, I wish I could celebrate right beside you today. I wish I could hold you close and give you birthday kisses even you banned it.</p>
+      <p>I hope you always stay happy. I'm so grateful to have you in my life, and even though we're physically far apart, you are always close to my heart.</p>
+      <p class="final">Distance separates our places, not our hearts. I love you, Oun. Happy Birthday Arya, my love. ❤️</p>
+    </div>
+  </div>
+</section>
+
+<!-- Floating music player -->
+<div id="player">
+  <button id="musicBtn" aria-label="Play or pause music">♪</button>
+  <div class="pinfo"><b>A Little Song for You ♡</b><small id="musicNote"></small>
+    <input id="vol" type="range" min="0" max="100" value="60" aria-label="Volume"></div>
+  <div class="viz"><i></i><i></i><i></i><i></i></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
